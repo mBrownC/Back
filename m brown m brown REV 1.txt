@@ -1,0 +1,61 @@
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ npm install express
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ npm init -y
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ sudo docker build -t mi-app .
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ sudo docker images
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+mi-app       latest    37997c5a68d0   50 seconds ago   1.13GB
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ sudo docker run -it --rm mi-app bash
+root@bf4d75b8de81:/app# su - postgres
+root@bf4d75b8de81:/app# apt-get install -y postgresql
+root@bf4d75b8de81:/app# service postgresql start
+Starting PostgreSQL 15 database server: main.
+root@bf4d75b8de81:/app# createdb principal
+createdb: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  role "root" does not exist
+root@bf4d75b8de81:/app# su - postgres
+postgres@bf4d75b8de81:~$ createdb principal
+postgres@bf4d75b8de81:~$ createuser -P mbrownc
+Enter password for new role: 
+Enter it again: 
+postgres@bf4d75b8de81:~$ \q
+-bash: q: command not found
+postgres@bf4d75b8de81:~$ exit
+logout
+root@bf4d75b8de81:/app# exit
+exit
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ sudo docker login
+[sudo] contraseña para m-brown: 
+Lo siento, pruebe otra vez.
+[sudo] contraseña para m-brown: 
+Log in with your Docker ID or email address to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com/ to create one.
+You can log in with your password or a Personal Access Token (PAT). Using a limited-scope PAT grants better security and is required for organizations using SSO. Learn more at https://docs.docker.com/go/access-tokens/
+
+Username: mbrownc
+Password: 
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ sudo docker images
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+mi-app       latest    37997c5a68d0   23 minutes ago   1.13GB
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ sudo docker tag mi-app mbrownc/mi-app
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ sudo docker tag mi-app mbrownc/mi-app
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ sudo docker push mbrownc/mi-app
+Using default tag: latest
+The push refers to repository [docker.io/mbrownc/mi-app]
+37fee7b88099: Pushed 
+ac860e3eafda: Pushed 
+b933ab09d7f7: Pushed 
+f44fb73323da: Pushed 
+cfe8140fcb87: Pushed 
+ac68e27ae9cc: Mounted from library/node 
+9cef422ea209: Mounted from library/node 
+09ddcd01d2dc: Mounted from library/node 
+5358370f44ab: Mounted from library/node 
+21e1c4948146: Mounted from library/node 
+68866beb2ed2: Mounted from library/node 
+e6e2ab10dba6: Mounted from library/node 
+0238a1790324: Mounted from library/node 
+latest: digest: sha256:ad67dc7f5742c4c76ebeac7c262363c1cce38de1b5122514406061a0cd0f39a0 size: 3044
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ 
