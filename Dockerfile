@@ -19,7 +19,7 @@ RUN npm install express pg
 COPY . .
 
 # Establece las variables de entorno para PostgreSQL
-ENV POSTGRES_HOST=localhost
+ENV POSTGRES_HOST=db
 ENV POSTGRES_PORT=5432
 ENV POSTGRES_USER=mbrownc
 ENV POSTGRES_PASSWORD=080520
