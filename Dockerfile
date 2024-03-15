@@ -6,8 +6,8 @@ RUN apt-get update && apt-get install -y postgresql-client
 # Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Copia el archivo package.json y package-lock.json (si existe)
-COPY package*.json ./
+# Inicializa un archivo package.json si no existe
+RUN npm init -y
 
 # Instala las dependencias de Node.js
 RUN npm install
