@@ -24,7 +24,3 @@ services:
       POSTGRES_USER: mbrownc
       POSTGRES_PASSWORD: 080520
       POSTGRES_DB: principal
-    volumes:
-      - ./src:/app/src
-      - /app/node_modules
-    command: npm run watch
