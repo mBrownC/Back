@@ -1,0 +1,135 @@
+Usuarios:
+
+id (clave primaria)
+nombre
+correo electrónico
+contraseña (se recomienda almacenarla de manera segura, por ejemplo, mediante un hash)
+Otros campos de perfil como ubicación, experiencia, educación, etc.
+
+Couches (o Mentores):
+
+id (clave primaria)
+nombre
+especialidad (puede ser áreas de experiencia como desarrollo de software, diseño gráfico, marketing, etc.)
+Otros detalles relevantes sobre el couch
+
+Metas de Aplicación a Trabajos Semanales:
+
+id (clave primaria)
+usuario_id (clave externa que hace referencia al id de la tabla Usuarios)
+semana (número de la semana en el año)
+anio (año)
+cantidad_meta (cantidad de trabajos a los que el usuario se compromete a aplicar semanalmente)
+cantidad_cumplida (cantidad de trabajos a los que el usuario aplicó durante esa semana)
+Otros detalles opcionales como comentarios, fecha de registro, etc.
+
+Registro de Entrevistas:
+
+id (clave primaria)
+usuario_id (clave externa que hace referencia al id de la tabla Usuarios)
+empleo_id (clave externa que hace referencia al id de la tabla Empleos)
+fecha_entrevista
+estado (aceptada, rechazada, pendiente, etc.)
+Otros detalles opcionales como comentarios del entrevistador, seguimiento posterior a la entrevista, etc.
+
+
+script
+
+-- Creación de la tabla Usuarios
+CREATE TABLE Usuarios (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100),
+    correo_electronico VARCHAR(255),
+    contrasena VARCHAR(255),
+    ubicacion VARCHAR(100), -- Puedes ajustar el tamaño según tus necesidades
+    experiencia VARCHAR(255), -- Puedes ajustar el tamaño según tus necesidades
+    educacion VARCHAR(255) -- Puedes ajustar el tamaño según tus necesidades
+);
+
+-- Creación de la tabla Couches
+CREATE TABLE Couches (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100),
+    especialidad VARCHAR(255) -- Puedes ajustar el tamaño según tus necesidades
+);
+
+-- Creación de la tabla Metas de Aplicacion a Trabajos Semanales
+CREATE TABLE Metas_Aplicacion_Trabajos_Semanales (
+    id SERIAL PRIMARY KEY,
+    usuario_id INT REFERENCES Usuarios(id),
+    semana INT,
+    anio INT,
+    cantidad_meta INT,
+    cantidad_cumplida INT
+);
+
+-- Creación de la tabla Registro de Entrevistas
+CREATE TABLE Registro_Entrevistas (
+    id SERIAL PRIMARY KEY,
+    usuario_id INT REFERENCES Usuarios(id),
+    empleo_id INT REFERENCES Empleos(id),
+    fecha_entrevista DATE,
+    estado VARCHAR(20) -- Puedes ajustar el tamaño según tus necesidades
+);
+
+-- Creación de la tabla Empleos
+CREATE TABLE Empleos (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(100),
+    descripcion TEXT, -- TEXT permite más contenido que VARCHAR
+    ubicacion VARCHAR(100),
+    tipo_empleo VARCHAR(50), -- Puedes ajustar el tamaño según tus necesidades
+    salario NUMERIC(10, 2), -- Ajusta la precisión y la escala según tus necesidades
+    couch_id INT REFERENCES Couches(id)
+);
+
+
+
+
+
+
+
+dblm
+
+Table Usuarios {
+  id int [pk, note: 'Clave primaria']
+  nombre varchar(100)
+  correo_electronico varchar(255)
+  contrasena varchar(255)
+  ubicacion varchar(100)
+  experiencia varchar(255)
+  educacion varchar(255)
+}
+
+Table Couches {
+  id int [pk, note: 'Clave primaria']
+  nombre varchar(100)
+  especialidad varchar(255)
+}
+
+Table Metas_Aplicacion_Trabajos_Semanales {
+  id int [pk, note: 'Clave primaria']
+  usuario_id int [ref: > Usuarios.id, note: 'Clave foránea referenciando Usuarios']
+  semana int
+  anio int
+  cantidad_meta int
+  cantidad_cumplida int
+}
+
+Table Registro_Entrevistas {
+  id int [pk, note: 'Clave primaria']
+  usuario_id int [ref: > Usuarios.id, note: 'Clave foránea referenciando Usuarios']
+  empleo_id int [ref: > Empleos.id, note: 'Clave foránea referenciando Empleos']
+  fecha_entrevista date
+  estado varchar(20)
+}
+
+Table Empleos {
+  id int [pk, note: 'Clave primaria']
+  titulo varchar(100)
+  descripcion text
+  ubicacion varchar(100)
+  tipo_empleo varchar(50)
+  salario numeric(10, 2)
+  couch_id int [ref: > Couches.id, note: 'Clave foránea referenciando Couches']
+}
