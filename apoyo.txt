@@ -1,6 +1,6 @@
 m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ npm install express
 m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ npm init -y
-m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ sudo docker build -t mi-app .
+m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$  mi-app .
 m-brown@m-brown-REV-1-0:~/Documentos/Incubadora/Back$ sudo docker images
 REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
 mi-app       latest    37997c5a68d0   50 seconds ago   1.13GB

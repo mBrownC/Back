@@ -1,20 +1,24 @@
 const express = require('express');
-const { Pool } = require('pg');
+// Importa Sequelize y el controlador de PostgreSQL
+const Sequelize = require('sequelize');
+const inicializarBaseDeDatos = require('./inicioBase.js');
+
+// Crea una instancia de la aplicación Express
 const app = express();
-const pool = new Pool({
-host: 'localhost',
-port: process.env.POSTGRES_PORT,
-user: process.env.POSTGRES_USER,
-password: process.env.POSTGRES_PASSWORD,
-database: process.env.POSTGRES_DB,
+
+// Carga las variables de entorno desde el archivo .env
+require('dotenv').config();
+
+// Configura el puerto
+const PORT = process.env.PORT || 3005;
+
+// Define el middleware para manejar solicitudes JSON
+app.use(express.json());
+
+// Define el puerto en el que la aplicación escuchará las solicitudes
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
-app.get('/', (req, res) => {
-res.send('Hola Mundo!');
-});
-app.get('/users', async (req, res) => {
-const results = await pool.query('SELECT * FROM users');
-res.json(results.rows);
-});
-app.listen(3000, () => {
-console.log('Servidor escuchando en el puerto 3000');
-});
+
+// Llama a la función para inicializar la base de datos
+inicializarBaseDeDatos();

@@ -1,3 +1,4 @@
+# Usa la imagen de Node.js versión 20
 FROM node:20
 
 # Instala el cliente de PostgreSQL
@@ -6,27 +7,15 @@ RUN apt-get update && apt-get install -y postgresql-client
 # Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Inicializa un archivo package.json si no existe
-RUN npm init -y
+# Instala Express y el paquete dotenv
+RUN npm install express pg sequelize dotenv
 
-# Instala las dependencias de Node.js
-RUN npm install
-
-# Instala Express y PostgreSQL
-RUN npm install express pg
-
-# Copia el resto de los archivos de la aplicación
+# Copia todos los archivos de la aplicación
 COPY . .
 
-# Establece las variables de entorno para PostgreSQL
-ENV POSTGRES_HOST=db
+# Define las variables de entorno para los puertos de escucha
+ENV PORT=3005
 ENV POSTGRES_PORT=5432
-ENV POSTGRES_USER=mbrownc
-ENV POSTGRES_PASSWORD=080520
-ENV POSTGRES_DB=principal
-
-# Copia los scripts SQL para la creación de la base de datos y la tabla
-COPY init.sql /docker-entrypoint-initdb.d/
 
 # Define el comando predeterminado para ejecutar la aplicación
 CMD ["node", "index.js"]
